@@ -7,6 +7,11 @@ def index(request):
     return render(request, 'index.html')
 
 def get_pregunta_by_subject(request, subject_id):
+    if request.method == 'POST':
+        data = request.POST
+        print(data)
+
+
     subject = Subject.objects.get(id=subject_id)
     preguntas = Question.objects.filter(materia=subject)
     return render(request, 'preguntas.html', {'Question': preguntas})

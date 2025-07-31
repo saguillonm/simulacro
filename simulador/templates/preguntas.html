@@ -25,7 +25,13 @@
         <div class="jumbo">
       <h1 style="text-align: center;">Lectura Crítica - Simulador ICFES</h1>
     </div>
-    <form>
+    <form method="post" action="{% url 'preguntas_by_subject' subject_id=2 %}">
+        {% csrf_token %}
+        {% if not Question %}
+            <div class="alert alert-warning" role="alert">
+                No hay preguntas disponibles para este simulador.
+            </div>
+        {% endif %}
         {% for Question in Question %}
             <div class="card mb-4">
                 <div class="card-header">
@@ -34,33 +40,31 @@
                 <div class="card-body">
                     <p><strong>{{ Question.enunciado }}</strong></p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" id="a{{ Question.id }}">
+                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" value="A">
                         <label class="form-check-label" for="a{{ Question.id }}">
                             A. {{ Question.opcion_A }}
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" id="b{{ Question.id }}">
+                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" value="B">
                         <label class="form-check-label" for="b{{ Question.id }}">
                             B. {{ Question.opcion_B }}
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" id="c{{ Question.id }}">
+                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" value="C">
                         <label class="form-check-label" for="c{{ Question.id }}">
                             C. {{ Question.opcion_C }}
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" id="d{{ Question.id }}">
+                        <input class="form-check-input" type="radio" name="pregunta_{{ Question.id }}" value="D">
                         <label class="form-check-label" for="d{{ Question.id }}">
                             D. {{ Question.opcion_D }}
                         </label>
                     </div>
                 </div>
             </div>
-        
-            <div class="alert alert-warning">No hay preguntas de Lectura Crítica disponibles.</div>
         {% endfor %}
         <button type="submit" class="btn btn-success">Enviar respuestas</button>
     </form>
